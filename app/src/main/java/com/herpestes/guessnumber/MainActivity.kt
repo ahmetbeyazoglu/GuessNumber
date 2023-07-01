@@ -22,22 +22,23 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    mainPage()
+
                 }
             }
         }
     }
 }
-
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun mainPage(){
+
 }
+
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     GuessNumberTheme {
-        Greeting("Android")
+        mainPage()
     }
 }
