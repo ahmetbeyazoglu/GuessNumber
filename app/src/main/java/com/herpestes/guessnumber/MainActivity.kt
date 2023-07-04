@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -15,8 +16,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.herpestes.guessnumber.ui.theme.GuessNumberTheme
+import com.herpestes.guessnumber.ui.theme.guessPage
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,11 +45,29 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
+fun pageRedirect(){
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "mainPage"){
+        composable("mainPage"){
+            mainPage()
+        }
+        composable("guessPage"){
+            guessPage()
+        }
+        composable("resultPage"){
+            resultPage()
+        }
+
+    }
+}
+
+
+@Composable
 fun mainPage() {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceEvenly) {
-        Text(text = "Guess Game")
+        Text(text = "Guess Game", fontSize = 36.sp, fontWeight = FontWeight.Bold)
         Image(painter = painterResource(id = R.drawable.zar_resim), contentDescription = null)
-        Button(onClick = { }) {
+        Button(onClick = {  }, modifier = Modifier.size(width = 250.dp, height = 50.dp)) {
             Text(text = "Start Game")
 
         }
@@ -49,6 +75,7 @@ fun mainPage() {
     }
 
 }
+
 
 
 @Preview(showBackground = true, showSystemUi = true)
