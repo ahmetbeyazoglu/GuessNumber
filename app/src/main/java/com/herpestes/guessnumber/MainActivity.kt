@@ -20,9 +20,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.herpestes.guessnumber.ui.theme.GuessNumberTheme
 import com.herpestes.guessnumber.ui.theme.guessPage
 
@@ -35,7 +38,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    mainPage()
+                    pageRedirect()
 
                 }
             }
@@ -48,13 +51,16 @@ fun pageRedirect(){
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "mainPage"){
         composable("mainPage"){
-            mainPage()
+            mainPage(navController)
         }
         composable("guessPage"){
-            guessPage()
+            guessPage(navController)
         }
-        composable("resultPage"){
-            resultPage()
+        composable("resultPage/{result}", arguments = listOf(
+            navArgument("result"){ type = NavType.BoolArrayType }
+        )){
+            val result = it.arguments?.getBoolean("result")!!
+            resultPage(navController, result)
         }
 
     }
@@ -62,11 +68,11 @@ fun pageRedirect(){
 
 
 @Composable
-fun mainPage() {
+fun mainPage(navController: NavController) {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceEvenly) {
         Text(text = "Guess Game", fontSize = 36.sp, fontWeight = FontWeight.Bold)
         Image(painter = painterResource(id = R.drawable.zar_resim), contentDescription = null)
-        Button(onClick = {  }, modifier = Modifier.size(width = 250.dp, height = 50.dp)) {
+        Button(onClick = { navController.navigate("guessPage") }, modifier = Modifier.size(width = 250.dp, height = 50.dp)) {
             Text(text = "Start Game")
 
         }
@@ -81,6 +87,6 @@ fun mainPage() {
 @Composable
 fun DefaultPreview() {
     GuessNumberTheme {
-        mainPage()
+
     }
 }
